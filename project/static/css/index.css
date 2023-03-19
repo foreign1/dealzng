@@ -1,0 +1,99 @@
+html {
+    color: #333 !important;
+}
+
+
+.header {
+    background-image: url("../images/hero-image.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: #fff; 
+    height: 15rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .header .overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 4rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    align-items: center;
+}
+
+.hero-body {
+  padding: 1rem 1.5rem;
+}
+
+.hero.is-fullheight .hero-body {
+  align-items: start;
+}
+.modal-text-long {
+    color: #333;
+}
+
+.prev-next-active {
+    background-color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+.prev-next-disabled {
+  background-color: #999;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    background-color: #333;
+    font-size: smaller;
+  }
+  
+  .media {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .media-content {
+    flex: 1;
+  }
+
+  .title.is-1 {
+    padding: 0.5rem;
+    text-transform: capitalize;
+  }
+  
+  .title.is-4 {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.8rem;
+    min-height: 3rem;
+  }
+  
+  .subtitle.is-6 {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .former-price {
+    font-size: 0.5rem;
+  }
+  
+  .notification {
+    margin-bottom: 1rem;;
+  }
+
+  .is-small-font td {
+    font-size: small;
+  }

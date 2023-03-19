@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="header">
+  <div class="overlay">
+    <h1 class="title">
+      Dealz.NG
+    </h1>
+    <h2 class="subtitle">
+      Your one stop shop for discounted prices in Hotel, Travel, Restaurant, Spa, and Training.
+    </h2>
+  </div>
+</div>
+
+<div>
+  {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+  {% endwith %}
+</div>
+<div class="columns is-multiline is-mobile is-centered">
+  {% for item in shopitems %}
+  <div class="column is-4-tablet is-3-desktop">
+    <div class="card">
+      <div class="card-image">
+        <figure class="image is-4by3">
+          <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+        </figure>
+      </div>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-content" id="media-content">
+            <p class="title is-4">
+              {% if item.name|length > 18 %}
+                {{ item.name|truncate(length=18, killwords=True, end='...') }}
+              {% else %}
+                {{ item.name }}
+              {% endif %}
+            </p>
+            <p class="subtitle is-6">Price: ₦‎{{ item.discount_price }} <del class="former-price">{{ item.price }} </del> </p>
+          </div>
+        </div>
+        <div class="content">
+          <button class="button is-primary" onclick="showModal({{ item.id }})">View details</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="modal-{{ item.id }}">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">{{ item.name }}</p>
+          <button class="delete" aria-label="close" onclick="hideModal({{ item.id }})"></button>
+        </header>
+        <section class="modal-card-body">
+          <div class="columns">
+            <div class="column is-one-third">
+              <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}">
+            </div>
+            <div class="column">
+              <p class="modal-text-long">{{ item.desc_long }}</p>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          {% if current_user.is_authenticated %}
+          <a href="{{ url_for('cart.add_to_cart', item_id=item.id) }}" class="button is-primary is-fullwidth">Add to cart</a>
+          {% else %}
+          <a href="{{ url_for('auth.login') }}" class="button is-primary is-fullwidth">Log in to add to cart</a>
+          {% endif %}
+        </footer>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  
+</div>
+<div class="pagination">
+  {% if has_prev %}
+  <a href="{{ url_for('main.index', page=prev_num) }}" class="prev-next-active">Previous</a>
+  {% else %}
+    <span class="prev-next-disabled disabled">Previous</span>
+  {% endif %}
+
+  {% if has_next %}
+    <a href="{{ url_for('main.index', page=next_num) }}" class="prev-next-active">Next</a>
+  {% else %}
+    <span class="prev-next-disabled disabled">Next</span>
+  {% endif %}
+
+</div>
+
+<script>
+  function showModal(id) {
+    document.getElementById('modal-' + id).classList.add('is-active');
+  }
+
+  function hideModal(id) {
+    document.getElementById('modal-' + id).classList.remove('is-active');
+  }
+</script>
+
+{% endblock %}
