@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="columns is-centered mt-5">
+        <div class="column is-three-quarters">
+            <h1 style="background-color:grey;" class="title is-1">{{ current_user.name }}'s Cart</h1>
+            <div>
+                {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                          <div class="notification is-danger">
+                              {{ messages[0] }}
+                          </div>
+                      {% endif %}
+                {% endwith %}
+            </div>
+              
+            <table class="table is-striped is-fullwidth is-small-font">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Actual Price</th>
+                        <th>Our Price</th>
+                        <th>You save</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>₦‎{{ item.price_actual }}</td>
+                            <td>₦‎{{ item.price_discount }}</td>
+                            <td>₦‎{{ '%0.2f' % (item.price_actual - item.price_discount) }}</td>
+                            <td>
+                                <a href="{{ url_for('cart.delete_item', cart_item_id=item.cart_item_id) }}" class="button is-danger is-outlined is-small">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><b>Cart Total</b></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>₦‎{{ cart_total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="{{ url_for('cart.make_payment') }}" method="POST">
+                <table class="table is-striped is-fullwidth is-small-font">
+                    <tbody>
+                        <tr>
+                            <td><b>Card Details</b></td>
+                            <td><input type="number" name="number" placeholder="Card number"></td>
+                            <td><input type="number" name="cvv" placeholder="CVV"></td>
+                            <td><input type="text" name="exp" placeholder="Expiry date"></td>
+                            <td><input type="number" name="pin" placeholder="Pin"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="btn-payment">
+                                <button type="submit" class="button is-dark is-outlined is-small is-fullwidth">Make Payment</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+{% endblock %}
